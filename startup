@@ -1,14 +1,16 @@
 os.loadAPI("cryptoNet")
 -- cryptoNet.setLoggingEnabled(false)
 
+print("Please enter your username:")
+local username = read()
+print("Please enter your password:")
+local password = read("*")
+
+
 function onStart()
   -- Connect to the server
   local socket = cryptoNet.connect("LoginDemoServer")
   -- Log in with a username and password
-  print("Please enter your username:")
-  local username = read()
-  print("Please enter your password:")
-  local password = read("*")
   cryptoNet.login(socket, username, password)
 end
 
