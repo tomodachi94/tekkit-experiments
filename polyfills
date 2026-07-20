@@ -1,0 +1,24 @@
+if not rednet.CHANNEL_REPEAT then
+  rednet.CHANNEL_REPEAT = 65533
+end
+
+if not table.unpack then
+  function table.unpack(t, i, j)
+    i = i or 1
+    j = j or #t
+    local n = j - i + 1
+    if n <= 0 then return end
+    if n == 1 then return t[i] end
+
+    -- Build multiple return values via a temp table
+    local r = {}
+    for k = 1, n do
+      r[k] = t[i + k - 1]
+    end
+    return unpack(r) -- uses global unpack (Lua 5.1)
+  end
+end
+
+if not os.cancelTimer then
+  function os.cancelTimer(...) end
+end
