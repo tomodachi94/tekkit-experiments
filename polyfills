@@ -28,9 +28,6 @@ if not os.cancelTimer then
 end
 
 if not bit32 then
-	if not bit then
-		error("polyfills.lua: no 'bit' library available; cannot provide bit32 shim")
-	end
 	bit32 = { band = bit.band, bor = bit.bor, lshift = bit.blshift, arshift = bit.blogic_rshift }
 end
 
