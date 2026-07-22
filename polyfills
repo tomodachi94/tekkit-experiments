@@ -27,41 +27,7 @@ if not bit32 then
     if not bit then
         error("polyfills.lua: no 'bit' library available; cannot provide bit32 shim")
     end
-
-    bit32 = {}
-
-    bit32.band = bit.band
-    bit32.bor  = bit.bor
-    bit32.bxor = bit.bxor
-    bit32.bnot = bit.bnot
-
-    -- left shift (logical)
-    bit32.lshift = bit.lshift or function(x, n)
-        n = n % 32
-        return (bit32.bxor(0, x) * (2 ^ n)) % (2 ^ 32)
-    end
-
-    -- logical right shift
-    bit32.rshift = bit.rshift or function(x, n)
-        n = n % 32
-        x = x % (2 ^ 32)
-        return math.floor(x / (2 ^ n)) % (2 ^ 32)
-    end
-
-    -- arithmetic right shift (preserve sign bit)
-    if bit.arshift then
-        bit32.arshift = bit.arshift
-    else
-        bit32.arshift = function(x, n)
-            n = n % 32
-            x = x % (2 ^ 32)
-            -- interpret as signed 32-bit
-            if x >= 2 ^ 31 then x = x - 2 ^ 32 end
-            local r = math.floor(x / (2 ^ n))
-            if r < 0 then r = r + 2 ^ 32 end
-            return r
-        end
-    end
+    bit32 = {band = bit.band, bor = bit.bor, lshift = bit.blshift, arshift = bit.blogic_rshift}
 end
 
 
