@@ -6,29 +6,28 @@ local username = read()
 print("Please enter your password:")
 local password = read("*")
 
-
 function onStart()
-  -- Connect to the server
-  local socket = cryptoNet.connect("LoginDemoServer")
-  -- Log in with a username and password
-  cryptoNet.login(socket, username, password)
+	-- Connect to the server
+	local socket = cryptoNet.connect("LoginDemoServer")
+	-- Log in with a username and password
+	cryptoNet.login(socket, username, password)
 end
 
 function onEvent(event)
-  -- Logged in successfully
-  if event[1] == "login" then
-    -- The username logged in
-    local username = event[2]
-    -- The socket that was logged in
-    local socket = event[3]
-    print("Logged in as "..username)
-    cryptoNet.send(socket, "Hello server!")
-  -- Login failed (wrong username or password)
-  elseif event[1] == "login_failed" then
-    print("Didn't manage to log in. :(")
-  elseif event[1] == "encrypted_message" then
-    print("Server said: "..event[2])
-  end
+	-- Logged in successfully
+	if event[1] == "login" then
+		-- The username logged in
+		local username = event[2]
+		-- The socket that was logged in
+		local socket = event[3]
+		print("Logged in as " .. username)
+		cryptoNet.send(socket, "Hello server!")
+	-- Login failed (wrong username or password)
+	elseif event[1] == "login_failed" then
+		print("Didn't manage to log in. :(")
+	elseif event[1] == "encrypted_message" then
+		print("Server said: " .. event[2])
+	end
 end
 
 cryptoNet.startEventLoop(onStart, onEvent)
