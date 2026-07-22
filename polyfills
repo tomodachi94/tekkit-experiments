@@ -541,3 +541,12 @@ if not os.epoch then
     return textutils.unserializeJSON(http.get("https://time.now/developer/api/timezone/UTC").readAll())["unixtime"]
   end
 end
+
+if not load then
+  function _G.load(i)
+    if type(i) == "function" then
+      return i
+    else
+      return loadstring(i)
+  end
+end
