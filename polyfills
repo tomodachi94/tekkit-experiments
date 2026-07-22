@@ -535,3 +535,9 @@ if not textutils.serialiseJSON then
   textutils.unserializeJSON, textutils.unserialiseJSON = json.decode, json.decode
 
 end
+
+if not os.epoch then
+  function os.epoch(locale)
+    return textutils.unserializeJSON(http.get("https://time.now/developer/api/timezone/UTC").readAll())["unixtime"]
+  end
+end
