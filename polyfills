@@ -548,5 +548,6 @@ if not load then
       return i
     else
       return loadstring(i)
+    end
   end
 end
