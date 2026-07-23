@@ -444,3 +444,47 @@ if not load then
 		end
 	end
 end
+
+
+local function trim_trailing_slash(s)
+  s = tostring(s or "")
+  if #s > 1 then
+    s = s:gsub("/+$", "")
+  end
+  return s
+end
+
+if not fs.getDir then
+  function fs.getDir(p)
+    p = tostring(p or "")
+    if p == "" then return "" end
+    p = trim_trailing_slash(p)
+    -- try to return the parent directory (empty string for top-level)
+    local parent = p:match("^(.*)/[^/]*$")
+    if parent then
+      if parent == "" then return "/" end
+      return parent
+    end
+    return ""
+  end
+end
+
+if not fs.getName then
+  function fs.getName(p)
+    p = tostring(p or "")
+    p = trim_trailing_slash(p)
+    local name = p:match("^.*/(.*)$") or p
+    return name
+  end
+end
+
+if not fs.combine then
+  function fs.combine(a,b)
+    a = tostring(a or "")
+    b = tostring(b or "")
+    if b:sub(1,1) == "/" then return b end
+    if a == "" or a == "." then return b end
+    if a:sub(-1) == "/" then return a .. b end
+    return a .. "/" .. b
+  end
+end
